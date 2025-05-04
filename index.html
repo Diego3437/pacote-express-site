@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pacote Express</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/scripts.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Pacote Express</h1>
+    <p>Conectando viajantes e quem precisa enviar pacotes</p>
+  </header>
+
+  <main>
+    <section id="escolha-usuario">
+      <h2>O que você deseja fazer?</h2>
+      <button id="btn-viajante">Sou Viajante</button>
+      <button id="btn-remetente">Quero Enviar um Pacote</button>
+    </section>
+
+    <section id="formulario" class="hidden">
+      <h2>Cadastre sua Viagem</h2>
+      <form id="trip-form">
+        <input type="text" id="nome" placeholder="Seu nome" required>
+        <input type="text" id="whatsapp" placeholder="Número do WhatsApp com código do país (ex: +55 ou +1)" required>
+        <input type="text" id="origem" placeholder="De onde você parte?" required>
+        <input type="text" id="destino" placeholder="Destino" required>
+        <input type="date" id="data" required>
+        <input type="number" id="espaco" placeholder="Espaço disponível (kg)" required>
+        <input type="number" id="preco" placeholder="Preço por kg (USD)" required>
+        <button type="submit">Publicar Viagem</button>
+      </form>
+    </section>
+
+    <section id="formulario-envio" class="hidden">
+      <h2>Quero Enviar um Pacote</h2>
+      <form id="envio-form">
+        <input type="text" id="remetente" placeholder="Seu nome" required>
+        <input type="text" id="whatsapp-remetente" placeholder="Número do WhatsApp com código do país (ex: +55 ou +1)" required>
+        <input type="text" id="origem-envio" placeholder="De onde você envia?" required>
+        <input type="text" id="destino-envio" placeholder="Para onde vai?" required>
+        <input type="number" id="peso-envio" placeholder="Peso do pacote (kg)" required>
+        <input type="text" id="descricao-envio" placeholder="O que você quer enviar?" required>
+        <button type="submit">Publicar Pedido</button>
+      </form>
+    </section>
+
+    <section id="busca">
+      <h2>Buscar Viagens por Destino</h2>
+      <input type="text" id="busca-destino" placeholder="Digite um destino...">
+    </section>
+
+    <section id="lista-viagens">
+      <h2>Viagens Disponíveis</h2>
+      <ul id="viagens"></ul>
+    </section>
+
+    <section id="lista-envios">
+      <h2>Pedidos de Envio</h2>
+      <ul id="envios"></ul>
+    </section>
+  </main>
+</body>
+</html>
