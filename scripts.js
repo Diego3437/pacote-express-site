@@ -5,10 +5,10 @@ const firebaseConfig = {
   apiKey: "AIzaSyC3Nvwk8R2owjJ_LVuwR6om0g8Inr3M-eU",
   authDomain: "pacote-express.firebaseapp.com",
   projectId: "pacote-express",
-  storageBucket: "pacote-express.firebasestorage.app",
   messagingSenderId: "540485632596",
   appId: "1:540485632596:web:604667d08d99fcc75b23c1"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
