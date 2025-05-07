@@ -24,7 +24,7 @@
       <h2>Cadastre sua Viagem</h2>
       <form id="trip-form">
         <input type="text" id="nome" placeholder="Seu nome" required>
-        <input type="text" id="whatsapp" placeholder="Número do WhatsApp com código do país (ex: +55 ou +1)" required>
+        <input type="text" id="whatsapp" placeholder="Número do WhatsApp com código do país" required>
         <input type="text" id="origem" placeholder="De onde você parte?" required>
         <input type="text" id="destino" placeholder="Destino" required>
         <input type="date" id="data" required>
@@ -38,7 +38,7 @@
       <h2>Quero Enviar um Pacote</h2>
       <form id="envio-form">
         <input type="text" id="remetente" placeholder="Seu nome" required>
-        <input type="text" id="whatsapp-remetente" placeholder="Número do WhatsApp com código do país (ex: +55 ou +1)" required>
+        <input type="text" id="whatsapp-remetente" placeholder="Número do WhatsApp com código do país" required>
         <input type="text" id="origem-envio" placeholder="De onde você envia?" required>
         <input type="text" id="destino-envio" placeholder="Para onde vai?" required>
         <input type="number" id="peso-envio" placeholder="Peso do pacote (kg)" required>
@@ -60,6 +60,28 @@
     <section id="lista-envios">
       <h2>Pedidos de Envio</h2>
       <ul id="envios"></ul>
+    </section>
+
+    <section id="servicos">
+      <h2>Serviços da Comunidade</h2>
+      <form id="servico-form">
+        <input type="text" id="nome-servico" placeholder="Seu nome" required>
+        <input type="text" id="whatsapp-servico" placeholder="WhatsApp com código do país" required>
+        <input type="text" id="cidade-servico" placeholder="Cidade onde oferece o serviço" required>
+        <input type="text" id="descricao-servico" placeholder="Qual serviço você oferece?" required>
+        <button type="submit">Publicar Serviço</button>
+      </form>
+
+      <input type="text" id="filtro-servico" placeholder="Filtrar por cidade...">
+      <ul id="lista-servicos"></ul>
+    </section>
+
+    <section id="contato">
+      <h2>Contato</h2>
+      <p>Para solicitar a exclusão de uma postagem, entre em contato pelo WhatsApp: 
+        <a href="https://wa.me/18722434554" target="_blank">+1 872-243-4554</a> 
+        informando o destino, cidade ou descrição da postagem.
+      </p>
     </section>
   </main>
 </body>
