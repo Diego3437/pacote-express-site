@@ -5,7 +5,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyC3Nvwk8R2owjJ_LVuwR6om0g8Inr3M-eU",
   authDomain: "pacote-express.firebaseapp.com",
   projectId: "pacote-express",
-  storageBucket: "pacote-express.firebasestorage.app",
+  storageBucket: "pacote-express.appspot.com",
   messagingSenderId: "540485632596",
   appId: "1:540485632596:web:604667d08d99fcc75b23c1"
 };
@@ -13,120 +13,134 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Elementos
-const form = document.getElementById('trip-form');
-const lista = document.getElementById('viagens');
-const envioForm = document.getElementById('envio-form');
-const listaEnvios = document.getElementById('envios');
-const inputBusca = document.getElementById('busca-destino');
+// ---------- VIAGENS / PACOTES ----------
+const tripForm = document.getElementById("trip-form");
+const tripList = document.getElementById("trip-list");
 
-const btnViajante = document.getElementById('btn-viajante');
-const btnRemetente = document.getElementById('btn-remetente');
-const secFormViajante = document.getElementById('formulario');
-const secFormEnvio = document.getElementById('formulario-envio');
-
-btnViajante.addEventListener('click', () => {
-  secFormViajante.classList.remove('hidden');
-  secFormEnvio.classList.add('hidden');
-});
-
-btnRemetente.addEventListener('click', () => {
-  secFormEnvio.classList.remove('hidden');
-  secFormViajante.classList.add('hidden');
-});
-
-function formatWhatsAppNumber(number) {
-  return number.replace(/[^+0-9]/g, '');
-}
-
-// Submissão de viagem
-form.addEventListener('submit', async function (e) {
+tripForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  const data = {
+    tipo: document.getElementById("tipo").value,
+    origem: document.getElementById("origem").value,
+    destino: document.getElementById("destino").value,
+    data: document.getElementById("data").value,
+    espaco: document.getElementById("espaco").value,
+    preco: document.getElementById("preco").value,
+    whatsapp: document.getElementById("whatsapp").value,
+    detalhes: document.getElementById("detalhes").value,
+  };
 
-  const nome = document.getElementById('nome').value;
-  const whatsapp = formatWhatsAppNumber(document.getElementById('whatsapp').value);
-  const origem = document.getElementById('origem').value;
-  const destino = document.getElementById('destino').value;
-  const data = document.getElementById('data').value;
-  const espaco = document.getElementById('espaco').value;
-  const preco = document.getElementById('preco').value;
-
-  try {
-    await addDoc(collection(db, "viagens"), {
-      nome, whatsapp, origem, destino, data, espaco, preco
-    });
-    form.reset();
-  } catch (error) {
-    console.error("Erro ao salvar viagem:", error);
-  }
+  await addDoc(collection(db, "viagens"), data);
+  tripForm.reset();
 });
 
-// Submissão de envio
-envioForm.addEventListener('submit', async function (e) {
-  e.preventDefault();
+let viagensCache = [];
 
-  const nome = document.getElementById('remetente').value;
-  const whatsapp = formatWhatsAppNumber(document.getElementById('whatsapp-remetente').value);
-  const origem = document.getElementById('origem-envio').value;
-  const destino = document.getElementById('destino-envio').value;
-  const peso = document.getElementById('peso-envio').value;
-  const descricao = document.getElementById('descricao-envio').value;
+function aplicarFiltros(data, container) {
+  const destinoFiltro = document.getElementById("filtro-destino").value.toLowerCase();
+  const origemFiltro = document.getElementById("filtro-origem").value.toLowerCase();
+  const tipoFiltro = document.getElementById("filtro-tipo").value;
 
-  try {
-    await addDoc(collection(db, "envios"), {
-      nome, whatsapp, origem, destino, peso, descricao
-    });
-    envioForm.reset();
-  } catch (error) {
-    console.error("Erro ao salvar envio:", error);
-  }
-});
+  container.innerHTML = "";
 
-// Renderização de viagem
-function renderViagem(doc) {
-  const data = doc.data();
-  const link = `https://wa.me/${formatWhatsAppNumber(data.whatsapp)}?text=Olá, vi sua viagem no Pacote Express para ${data.destino}!`;
+  data.forEach((doc) => {
+    const v = doc.data();
+    const destinoOk = (v.destino || "").toLowerCase().includes(destinoFiltro);
+    const origemOk = (v.origem || "").toLowerCase().includes(origemFiltro);
+    const tipoOk = tipoFiltro === "" || v.tipo === tipoFiltro;
 
-  const item = document.createElement('li');
-  item.innerHTML = `
-    🧳 <strong>${data.nome}</strong><br>
-    📍 De: ${data.origem} → ✈️ Para: ${data.destino}<br>
-    📅 Data: ${data.data} | 📦 Espaço: ${data.espaco}kg | 💵 $${data.preco}/kg
-    <br><a class="contato-btn" href="${link}" target="_blank">Entrar em contato</a>
-  `;
-  lista.appendChild(item);
-}
+    if (destinoOk && origemOk && tipoOk) {
+      const li = document.createElement("li");
+      li.className = "bg-white shadow rounded p-4 flex flex-col gap-2";
 
-// Renderização de envio
-function renderEnvio(doc) {
-  const data = doc.data();
-  const link = `https://wa.me/${formatWhatsAppNumber(data.whatsapp)}?text=Olá, vi seu pedido de envio no Pacote Express para ${data.destino}!`;
-
-  const item = document.createElement('li');
-  item.innerHTML = `
-    📦 <strong>${data.nome}</strong> quer enviar: ${data.descricao}<br>
-    📍 De: ${data.origem} → Para: ${data.destino} | ⚖️ Peso: ${data.peso}kg
-    <br><a class="contato-btn" href="${link}" target="_blank">Entrar em contato</a>
-  `;
-  listaEnvios.appendChild(item);
-}
-
-// Atualização em tempo real
-onSnapshot(collection(db, "viagens"), snapshot => {
-  lista.innerHTML = "";
-  snapshot.forEach(doc => renderViagem(doc));
-});
-
-onSnapshot(collection(db, "envios"), snapshot => {
-  listaEnvios.innerHTML = "";
-  snapshot.forEach(doc => renderEnvio(doc));
-});
-
-// Filtro de buscas
-inputBusca.addEventListener('input', function () {
-  const termo = inputBusca.value.toLowerCase();
-  const itens = lista.querySelectorAll('li');
-  itens.forEach(item => {
-    item.style.display = item.innerText.toLowerCase().includes(termo) ? '' : 'none';
+      li.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">${v.tipo || "-"}</span>
+          <span class="text-xs text-gray-500">${v.data || "-"}</span>
+        </div>
+        <div class="flex items-center text-lg font-semibold text-gray-800">
+          <span>${v.origem || "-"}</span>
+          <span class="mx-2">✈️</span>
+          <span>${v.destino || "-"}</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="bg-gray-100 px-3 py-1 rounded text-sm">📦 ${v.espaco || "?"} kg</span>
+          <span class="text-green-600 font-medium">$${v.preco || "-"}</span>
+        </div>
+        <p class="text-sm text-gray-600">${v.detalhes || ""}</p>
+        <a href="https://wa.me/${(v.whatsapp || "").replace(/\\D/g, '')}" target="_blank" class="inline-block mt-2 bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1.5 rounded w-fit">
+          Entrar em contato
+        </a>
+      `;
+      container.appendChild(li);
+    }
   });
+}
+
+["filtro-destino", "filtro-origem", "filtro-tipo"].forEach((id) =>
+  document.getElementById(id).addEventListener("input", () => aplicarFiltros(viagensCache, tripList))
+);
+
+onSnapshot(collection(db, "viagens"), (snapshot) => {
+  viagensCache = [];
+  snapshot.forEach((doc) => viagensCache.push(doc));
+  aplicarFiltros(viagensCache, tripList);
+});
+
+// ---------- SERVIÇOS ----------
+const serviceForm = document.getElementById("service-form");
+const serviceList = document.getElementById("service-list");
+
+serviceForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = {
+    servico: document.getElementById("servico").value,
+    cidade: document.getElementById("cidade").value,
+    descricao: document.getElementById("descricao").value,
+    whatsapp: document.getElementById("whats-servico").value,
+  };
+
+  await addDoc(collection(db, "servicos"), data);
+  serviceForm.reset();
+});
+
+let servicosCache = [];
+
+function aplicarFiltrosServicos(data, container) {
+  const servicoFiltro = document.getElementById("filtro-servico").value.toLowerCase();
+  const cidadeFiltro = document.getElementById("filtro-cidade").value.toLowerCase();
+
+  container.innerHTML = "";
+
+  data.forEach((doc) => {
+    const s = doc.data();
+    const servicoOk = (s.servico || "").toLowerCase().includes(servicoFiltro);
+    const cidadeOk = (s.cidade || "").toLowerCase().includes(cidadeFiltro);
+
+    if (servicoOk && cidadeOk) {
+      const li = document.createElement("li");
+      li.className = "bg-white shadow rounded p-4 flex flex-col gap-2";
+      li.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-base font-semibold text-gray-800">${s.servico || "-"}</span>
+          <span class="text-sm text-gray-500">${s.cidade || "-"}</span>
+        </div>
+        <p class="text-sm text-gray-700">${s.descricao || ""}</p>
+        <a href="https://wa.me/${(s.whatsapp || "").replace(/\\D/g, '')}" target="_blank" class="inline-block mt-2 bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1.5 rounded w-fit">
+          Entrar em contato
+        </a>
+      `;
+      container.appendChild(li);
+    }
+  });
+}
+
+["filtro-servico", "filtro-cidade"].forEach((id) =>
+  document.getElementById(id).addEventListener("input", () => aplicarFiltrosServicos(servicosCache, serviceList))
+);
+
+onSnapshot(collection(db, "servicos"), (snapshot) => {
+  servicosCache = [];
+  snapshot.forEach((doc) => servicosCache.push(doc));
+  aplicarFiltrosServicos(servicosCache, serviceList);
 });
