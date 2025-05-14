@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classificados | Pacote Express</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Menu -->
+  <header class="bg-white shadow p-4 text-center">
+    <h1 class="text-2xl font-bold text-blue-600">Pacote Express</h1>
+    <nav class="mt-2">
+      <ul class="flex flex-wrap justify-center gap-4 text-blue-600 text-sm font-semibold">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="servicos.html">Serviços</a></li>
+        <li><a href="eventos.html">Eventos</a></li>
+        <li><a href="classificados.html" class="underline">Classificados</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto p-4 space-y-8">
+
+    <!-- Formulário de Classificado -->
+    <section class="bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold mb-2">Publicar um Anúncio</h2>
+      <form id="classificado-form" class="space-y-2">
+        <input type="text" id="titulo" placeholder="Título do anúncio" class="w-full border p-2 rounded" required>
+        <input type="text" id="cidade-anuncio" placeholder="Cidade" class="w-full border p-2 rounded" required>
+        <input type="text" id="whats-anuncio" placeholder="WhatsApp para contato" class="w-full border p-2 rounded" required>
+        <textarea id="descricao-anuncio" placeholder="Descrição" class="w-full border p-2 rounded" required></textarea>
+        <button type="submit" class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">Publicar Anúncio</button>
+      </form>
+    </section>
+
+    <!-- Filtros -->
+    <section class="bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold mb-4">Anúncios Recentes</h2>
+      <div class="flex flex-col sm:flex-row gap-2 mb-4">
+        <input type="text" id="filtro-titulo" placeholder="Filtrar por título" class="border p-2 rounded w-full sm:w-1/2">
+        <input type="text" id="filtro-cidade-anuncio" placeholder="Filtrar por cidade" class="border p-2 rounded w-full sm:w-1/2">
+      </div>
+      <ul id="classificados-list" class="space-y-2"></ul>
+    </section>
+
+  </main>
+
+  <script src="js/scripts.js" type="module"></script>
+</body>
+</html>

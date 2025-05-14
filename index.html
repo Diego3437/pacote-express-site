@@ -5,17 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pacote Express</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7543065520155491"
+     crossorigin="anonymous"></script>
 </head>
 <body class="bg-[#f0f4f8] text-gray-800">
 
+  <!-- Cabeçalho e Menu -->
   <header class="bg-white shadow p-4 text-center">
     <h1 class="text-2xl font-bold text-blue-600">Pacote Express</h1>
     <p class="text-sm text-gray-500">Conectando viajantes e remetentes</p>
+    <nav class="mt-2">
+      <ul class="flex flex-wrap justify-center gap-4 text-blue-600 text-sm font-semibold">
+        <li><a href="index.html" class="underline">Início</a></li>
+        <li><a href="servicos.html">Serviços</a></li>
+        <li><a href="eventos.html">Eventos</a></li>
+        <li><a href="classificados.html">Classificados</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main class="p-4 space-y-8 max-w-3xl mx-auto">
 
-    <!-- Formulário -->
+    <!-- Formulário de Viagem/Pacote -->
     <section class="bg-white p-4 rounded shadow">
       <h2 class="text-xl font-semibold mb-2">Postar Viagem ou Pacote</h2>
       <form id="trip-form" class="space-y-2">
@@ -29,7 +41,7 @@
         <input type="date" id="data" class="w-full border p-2 rounded" required>
         <input type="text" id="espaco" placeholder="Espaço disponível (kg)" class="w-full border p-2 rounded">
         <input type="text" id="preco" placeholder="Preço por kg em dólar (ex: 20)" class="w-full border p-2 rounded">
-        <input type="text" id="whatsapp" placeholder="WhatsApp com código do país ex: (ex: +55DDD9XXXXXXX)" class="w-full border p-2 rounded" required>
+        <input type="text" id="whatsapp" placeholder="WhatsApp com código do país (ex: +55DDD9XXXXXXX)" class="w-full border p-2 rounded" required>
         <textarea id="detalhes" placeholder="Detalhes adicionais..." class="w-full border p-2 rounded"></textarea>
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Publicar</button>
       </form>
@@ -50,28 +62,6 @@
       <ul id="trip-list" class="space-y-2"></ul>
     </section>
 
-    <!-- Formulário de Serviço -->
-    <section class="bg-white p-4 rounded shadow">
-      <h2 class="text-xl font-semibold mb-2">Serviços da Comunidade</h2>
-      <form id="service-form" class="space-y-2">
-        <input type="text" id="servico" placeholder="Tipo de serviço" class="w-full border p-2 rounded" required>
-        <input type="text" id="cidade" placeholder="Cidade onde oferece o serviço" class="w-full border p-2 rounded" required>
-        <input type="text" id="whats-servico" placeholder="WhatsApp com código do país (ex: +55DDD9XXXXXXX)" class="w-full border p-2 rounded" required>
-        <textarea id="descricao" placeholder="Descrição do serviço" class="w-full border p-2 rounded" required></textarea>
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Publicar Serviço</button>
-      </form>
-    </section>
-
-    <!-- Filtros de serviço -->
-    <section class="bg-white p-4 rounded shadow">
-      <h2 class="text-xl font-semibold mb-4">Serviços Disponíveis</h2>
-      <div class="flex flex-col sm:flex-row gap-2 mb-4">
-        <input type="text" id="filtro-servico" placeholder="Filtrar por serviço" class="border p-2 rounded w-full sm:w-1/2">
-        <input type="text" id="filtro-cidade" placeholder="Filtrar por cidade" class="border p-2 rounded w-full sm:w-1/2">
-      </div>
-      <ul id="service-list" class="space-y-2"></ul>
-    </section>
-
     <!-- Como Funciona -->
     <section class="bg-white p-4 rounded shadow">
       <h2 class="text-xl font-semibold mb-2 text-blue-700">Como Funciona</h2>
@@ -81,14 +71,7 @@
       </p>
     </section>
 
-    <!-- Contato -->
-    <section class="bg-white p-4 rounded shadow">
-      <h2 class="text-xl font-semibold mb-2 text-blue-700">Contato / Suporte</h2>
-      <p class="text-gray-700">
-        Em caso de dúvidas ou solicitações de exclusão de conteúdo, entre em contato com nosso suporte via WhatsApp:<br>
-        <a href="https://wa.me/18722434554" target="_blank" class="text-green-600 underline">+1 872-243-4554</a>
-      </p>
-    </section>
+   
 
     <!-- Botão Voltar ao Topo -->
     <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
@@ -98,6 +81,7 @@
 
   </main>
 
+  <!-- Firebase Script -->
   <script src="js/scripts.js" type="module"></script>
 </body>
 </html>
